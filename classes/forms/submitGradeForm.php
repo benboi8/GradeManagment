@@ -31,24 +31,103 @@ class submitGradeForm extends moodleform {
         global $CFG;
         $mform = $this->_form; // Don't forget the underscore!
 
-        $mform->addElement('text', 'fullname', 'Full name');
-        $mform->setType('fullname', PARAM_ALPHAEXT);
-        $mform->setDefault('fullname', 'Please your full name');
+        $mform->addElement(
+            'text',
+            'fullname',
+            get_string('fullName', 'gradereport_gradingmanager')
+        );
+        $mform->setType(
+            'fullname',
+            PARAM_RAW_TRIMMED
+        );
+        $mform->addRule(
+            'fullname',
+            get_string("isRequired", "gradereport_gradingmanager", get_string('fullName', 'gradereport_gradingmanager')),
+            'required',
+            null,
+            'client'
+        );
+        $mform->addRule(
+            'fullname',
+            get_string("onlyLetters", "gradereport_gradingmanager", get_string('name', 'gradereport_gradingmanager')),
+            'lettersonly',
+            null,
+            'client'
+        );
 
-        $mform->addElement('text', 'subject', 'Subject');
-        $mform->setType('subject', PARAM_ALPHANUMEXT);
-        $mform->setDefault('subject', 'Please the subject');
+        $mform->addElement(
+            'text',
+            'subject',
+            get_string('subject', 'gradereport_gradingmanager')
+        );
+        $mform->setType(
+            'subject',
+            PARAM_RAW_TRIMMED
+        );
+        $mform->addRule(
+            'subject',
+            get_string("isRequired", "gradereport_gradingmanager", get_string('subject', 'gradereport_gradingmanager')),
+            'required',
+            null,
+            'client'
+        );
+        $mform->addRule(
+            'subject',
+            get_string("onlyLetters", "gradereport_gradingmanager", get_string('subject', 'gradereport_gradingmanager')),
+            'lettersonly',
+            null,
+            'client'
+        );
 
-        $mform->addElement('text', 'grade', 'Grade');
-        $mform->setType('grade', PARAM_INT);
-        $mform->setDefault('grade', 'Please the grade between 0-9');
+
+        $mform->addElement(
+            'text',
+            'grade',
+            get_string('grade', 'gradereport_gradingmanager')
+        );
+        $mform->setType(
+            'grade',
+            PARAM_ALPHANUMEXT
+        );
+        $mform->addRule(
+            'grade',
+            get_string("isRequired", "gradereport_gradingmanager", get_string('grade', 'gradereport_gradingmanager')),
+            'required',
+            null,
+            'client'
+        );
+
+        // TODO Do file uploads
+        $maxbytes = 1e+7;
+        $mform->addElement(
+            'filemanager',
+            'attachments',
+            get_string('attachment', 'moodle'),
+            null,
+            [
+                'subdirs' => 0,
+                'maxbytes' => $maxbytes,
+                'areamaxbytes' => 10485760,
+                'maxfiles' => 50,
+                'accepted_types' => ['document'],
+                'return_types' => FILE_INTERNAL | FILE_EXTERNAL,
+            ]
+        );
 
         $this->add_action_buttons();
     }
     //Custom validation should be added here
     function validation($data, $files): array
     {
-        var_dump($data, $files);
-        return array();
+        $errors = array();
+
+        if (!is_numeric($data['grade'])) {
+            $errors['grade'] = get_string("mustBeNum", "gradereport_gradingmanager", "Grade");
+        } else {
+            if (0 > $data['grade'] || $data['grade'] > 9) {
+                $errors['grade'] = get_string("mustBeBetween", "gradereport_gradingmanager", ['value' => "Grade", 'from' => "0", 'to' => "9"]);
+            }
+        }
+        return $errors;
     }
 }

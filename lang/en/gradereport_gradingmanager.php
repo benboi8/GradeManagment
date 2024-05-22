@@ -22,4 +22,25 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$DATABASE_NAME = "gradereport_gradingmanager";
+$string['gradesPageUrl'] = '/grade/report/gradingmanager/grades.php';
+$string['gradesTitle'] = 'Grades';
+$string['gradesTemplate'] = 'gradereport_gradingmanager/grades';
+
+$string['submitPageUrl'] = '/grade/report/gradingmanager/submitGrade.php';
+$string['submitTitle'] = 'Submit grade';
+
+$string['gradeCancelled'] = 'Grade submission cancelled.';
+$string['gradeSuccess'] = 'Grade submitted.';
+
+$string['databaseName'] = 'gradereport_gradingmanager';
+
+$string['fullName'] = 'Full name';
+$string['name'] = 'Name';
+$string['subject'] = 'Subject';
+$string['grade'] = 'Grade';
+$string['attachments'] = 'Attachments';
+
+$string['isRequired'] = '{$a} is required.';
+$string['onlyLetters'] = '{$a} can only contain letters.';
+$string['mustBeNum'] = '{$a} must be a number';
+$string['mustBeBetween'] = '{$a->value} must be between {$a->from} and {$a->to}';

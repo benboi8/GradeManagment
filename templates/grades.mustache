@@ -24,10 +24,42 @@
     }
 }}
 
-<h1>List of grades</h1>
-<hr>
 <input type="button" class="btn btn-primary" value="Submit Grade" onclick="location.href='{{submiturl}}'">
-{{#grades}}
-    <!-- TODO format -->
-    <p>{{studentname}} | {{subject}} | {{grade}} | {{timesubmitted}}</p>
-{{/grades}}
+<input type="button" class="btn btn-primary" value="Edit Grades" onclick="location.href='{{editurl}}'">
+
+<br><br>
+
+<!--Table Style-->
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #cccccc;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+
+<table class="grades-table">
+    <tr>
+        <th>Full Name</th>
+        <th>Subject</th>
+        <th>Grade</th>
+        <th>Time submitted</th>
+    </tr>
+    {{#grades}}
+        <tr>
+            <td>{{studentname}}</td>
+            <td>{{subject}}</td>
+            <td>{{grade}}</td>
+            <td>{{timesubmitted}}</td>
+        </tr>
+    {{/grades}}
+</table>

@@ -24,27 +24,26 @@
 
 // get config values
 require_once(__DIR__ . '/../../../config.php');
-require_once('config.php');
 
 
 // get database
 global $DB;
 
 // page setup
-$PAGE->set_url(new moodle_url('/grade/report/gradingmanager/grades.php'));
+$PAGE->set_url(new moodle_url(get_string('gradesPageUrl', "gradereport_gradingmanager")));
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_title('Grades');
+$PAGE->set_title(get_string("gradesTitle", "gradereport_gradingmanager"));
 
 
-$grades = $DB->get_records($DATABASE_NAME);
+$grades = $DB->get_records(get_string("databaseName", "gradereport_gradingmanager"));
 
-// convert timesubmitted from epoch time to datetime
-$grades[1]->timesubmitted = date("d/m/Y H:i", substr($grades[1]->timesubmitted, 0, 10));
+
+// TODO add sorting of columns by changing order of $grades
 
 // create template context
 $templatecontext = (object)[
     'grades' => array_values($grades),
-    'submiturl' => '/grade/report/gradingmanager/submitGrade.php'
+    'submiturl' => get_string("submitPageUrl", "gradereport_gradingmanager")
 ];
 
 
@@ -52,6 +51,6 @@ $templatecontext = (object)[
 
 echo $OUTPUT->header();
 
-echo $OUTPUT->render_from_template('gradereport_gradingmanager/grades', $templatecontext);
+echo $OUTPUT->render_from_template(get_string("gradesTemplate", "gradereport_gradingmanager"), $templatecontext);
 
 echo $OUTPUT->footer();

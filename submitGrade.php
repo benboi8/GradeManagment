@@ -25,37 +25,42 @@
 // get config values
 require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->dirroot . '/grade/report/gradingmanager/classes/forms/submitGradeForm.php');
-require_once('config.php');
 
 global $DB;
 
 // page setup
-$PAGE->set_url(new moodle_url('/grade/report/gradingmanager/submitGrade.php'));
+$PAGE->set_url(new moodle_url(get_string("submitPageUrl", "gradereport_gradingmanager")));
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_title('Submit grade');
+$PAGE->set_title(get_string("submitTitle", "gradereport_gradingmanager"));
 
+
+// render
 $mform = new submitGradeForm();
 
 if ($mform->is_cancelled()) {
-    redirect($CFG->wwwroot.'/grade/report/gradingmanager/grades.php', 'Grade submission cancelled.');
+    redirect($CFG->wwwroot.get_string("gradesPageUrl", "gradereport_gradingmanager"), get_string("gradeCancelled", "gradereport_gradingmanager"));
 } else if ($fromform = $mform->get_data()) {
     // Insert the data into database table.
     $recordtoinsert = new stdClass();
-    $recordtoinsert->studentname = $fromform->fullname;
-    $recordtoinsert->subject = $fromform->subject;
-    $recordtoinsert->grade = $fromform->grade;
-    $recordtoinsert->timesubmitted = time();
 
-    $DB->insert_record($DATABASE_NAME, $recordtoinsert);
+    // do data validation
+    $fullname = $fromform->fullname;
+    $subject = $fromform->subject;
+    $grade = $fromform->grade;
 
-    redirect($CFG->wwwroot.'/grade/report/gradingmanager/grades.php', 'Grade submitted.');
+    $recordtoinsert->studentname = $fullname;
+    $recordtoinsert->subject = $subject;
+    $recordtoinsert->grade = $grade;
+    $recordtoinsert->timesubmitted = date("d/m/Y H:i", substr(time(), 0, 10));;
+
+    $DB->insert_record(get_string("databaseName", "gradereport_gradingmanager"), $recordtoinsert);
+
+    redirect($CFG->wwwroot.get_string("gradesPageUrl", "gradereport_gradingmanager"), get_string("gradeSuccess", "gradereport_gradingmanager"));
 
 
 }
 
-// render
+
 echo $OUTPUT->header();
-
 $mform->display();
-
 echo $OUTPUT->footer();
