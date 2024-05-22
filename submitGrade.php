@@ -41,9 +41,10 @@ if ($mform->is_cancelled()) {
 } else if ($fromform = $mform->get_data()) {
     // Insert the data into database table.
     $recordtoinsert = new stdClass();
-    $recordtoinsert->fullname = $fromform->fullname;
+    $recordtoinsert->studentname = $fromform->fullname;
     $recordtoinsert->subject = $fromform->subject;
     $recordtoinsert->grade = $fromform->grade;
+    $recordtoinsert->timesubmitted = time();
 
     $DB->insert_record($DATABASE_NAME, $recordtoinsert);
 

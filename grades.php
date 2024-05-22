@@ -38,6 +38,9 @@ $PAGE->set_title('Grades');
 
 $grades = $DB->get_records($DATABASE_NAME);
 
+// convert timesubmitted from epoch time to datetime
+$grades[1]->timesubmitted = date("d/m/Y H:i", substr($grades[1]->timesubmitted, 0, 10));
+
 // create template context
 $templatecontext = (object)[
     'grades' => array_values($grades),
@@ -46,6 +49,7 @@ $templatecontext = (object)[
 
 
 // render
+
 echo $OUTPUT->header();
 
 echo $OUTPUT->render_from_template('gradereport_gradingmanager/grades', $templatecontext);
