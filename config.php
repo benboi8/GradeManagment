@@ -22,31 +22,4 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// get config values
-require_once(__DIR__ . '/../../../config.php');
-require_once('config.php');
-
-
-// get database
-global $DB;
-
-// page setup
-$PAGE->set_url(new moodle_url('/grade/report/gradingmanager/grades.php'));
-$PAGE->set_context(\context_system::instance());
-$PAGE->set_title('Grades');
-
-
-$grades = $DB->get_records($DATABASE_NAME);
-
-// create template context
-$templatecontext = (object)[
-    'grades' => array_values($grades),
-];
-
-
-// render
-echo $OUTPUT->header();
-
-echo $OUTPUT->render_from_template('gradereport_gradingmanager/grades', $templatecontext);
-
-echo $OUTPUT->footer();
+$DATABASE_NAME = "graderoute_gradingmanager";
