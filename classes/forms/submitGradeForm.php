@@ -23,6 +23,7 @@
  */
 
 require_once("$CFG->libdir/formslib.php");
+require_once("$CFG->libdir/repository/lib.php");
 
 class submitGradeForm extends moodleform {
     //Add elements to form
@@ -102,7 +103,7 @@ class submitGradeForm extends moodleform {
         $mform->addElement(
             'filemanager',
             'attachments',
-            get_string('attachment', 'moodle'),
+            get_string('attachments', 'gradereport_gradingmanager'),
             null,
             [
                 'subdirs' => 0,
