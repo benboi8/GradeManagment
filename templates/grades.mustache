@@ -25,6 +25,8 @@
 }}
 
 <h1>List of grades</h1>
+<hr>
+<input type="button" class="btn btn-primary" value="Submit Grade" onclick="location.href='{{submiturl}}'">
 {{#grades}}
     <p>{{studentname}} | {{subject}} | {{grade}} | {{timesubmitted}}</p>
 {{/grades}}

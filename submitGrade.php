@@ -24,30 +24,37 @@
 
 // get config values
 require_once(__DIR__ . '/../../../config.php');
+require_once($CFG->dirroot . '/grade/report/gradingmanager/classes/forms/submitGradeForm.php');
 require_once('config.php');
 
-
-// get database
 global $DB;
 
 // page setup
-$PAGE->set_url(new moodle_url('/grade/report/gradingmanager/grades.php'));
+$PAGE->set_url(new moodle_url('/grade/report/gradingmanager/submitGrade.php'));
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_title('Grades');
+$PAGE->set_title('Submit grade');
+
+$mform = new submitGradeForm();
+
+if ($mform->is_cancelled()) {
+    redirect($CFG->wwwroot.'/grade/report/gradingmanager/grades.php', 'Grade submission cancelled.');
+} else if ($fromform = $mform->get_data()) {
+    // Insert the data into database table.
+    $recordtoinsert = new stdClass();
+    $recordtoinsert->fullname = $fromform->fullname;
+    $recordtoinsert->subject = $fromform->subject;
+    $recordtoinsert->grade = $fromform->grade;
+
+    $DB->insert_record($DATABASE_NAME, $recordtoinsert);
+
+    redirect($CFG->wwwroot.'/grade/report/gradingmanager/grades.php', 'Grade submitted.');
 
 
-$grades = $DB->get_records($DATABASE_NAME);
-
-// create template context
-$templatecontext = (object)[
-    'grades' => array_values($grades),
-    'submiturl' => '/grade/report/gradingmanager/submitGrade.php'
-];
-
+}
 
 // render
 echo $OUTPUT->header();
 
-echo $OUTPUT->render_from_template('gradereport_gradingmanager/grades', $templatecontext);
+$mform->display();
 
 echo $OUTPUT->footer();

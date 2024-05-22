@@ -22,4 +22,4 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$DATABASE_NAME = "graderoute_gradingmanager";
+$DATABASE_NAME = "gradereport_gradingmanager";
