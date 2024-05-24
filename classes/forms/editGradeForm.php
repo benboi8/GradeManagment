@@ -25,12 +25,19 @@
 require_once("$CFG->libdir/formslib.php");
 require_once("$CFG->libdir/../repository/lib.php");
 
-class submitGradeForm extends moodleform {
-    //Add elements to form
+
+class editGradeForm extends moodleform {
     public function definition(): void
     {
         global $CFG;
-        $mform = $this->_form; // Don't forget the underscore!
+
+        $mform = $this->_form;
+
+        $mform->addElement(
+            'hidden',
+            'id',
+            'id'
+        );
 
         $mform->addElement(
             'text',
@@ -96,24 +103,6 @@ class submitGradeForm extends moodleform {
             'required',
             null,
             'client'
-        );
-
-        // TODO Do file uploads
-        $maxFiles = 50;
-        $maxbytes = get_max_upload_file_size();
-        $mform->addElement(
-            'filemanager',
-            'attachments',
-            get_string('attachments', 'gradereport_gradingmanager'),
-            null,
-            [
-                'subdirs' => 0,
-                'maxbytes' => $maxbytes,
-                'areamaxbytes' => $maxbytes * $maxFiles,
-                'maxfiles' => $maxFiles,
-                'accepted_types' => ['document', 'presentation', '.txt'],
-                'return_types' => FILE_INTERNAL | FILE_EXTERNAL,
-            ]
         );
 
         $this->add_action_buttons();

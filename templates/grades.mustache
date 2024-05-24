@@ -25,7 +25,6 @@
 }}
 
 <input type="button" class="btn btn-primary" value="Submit Grade" onclick="location.href='{{submiturl}}'">
-<input type="button" class="btn btn-primary" value="Edit Grades" onclick="location.href='{{editurl}}'">
 
 <br><br>
 
@@ -45,6 +44,10 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+.edit-col {
+    width: 100px;
+}
 </style>
 
 <table class="grades-table">
@@ -53,6 +56,7 @@ tr:nth-child(even) {
         <th>Subject</th>
         <th>Grade</th>
         <th>Time submitted</th>
+        <th class="edit-col"></th>
     </tr>
     {{#grades}}
         <tr>
@@ -60,6 +64,7 @@ tr:nth-child(even) {
             <td>{{subject}}</td>
             <td>{{grade}}</td>
             <td>{{timesubmitted}}</td>
+            <td class="edit-col"><input type="button" class="btn btn-primary" value="Edit Grade" onclick="location.href='{{editurl}}?id={{id}}'"></td>
         </tr>
     {{/grades}}
 </table>

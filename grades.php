@@ -40,10 +40,12 @@ $grades = $DB->get_records(get_string("databaseName", "gradereport_gradingmanage
 
 // TODO add sorting of columns by changing order of $grades
 
+
 // create template context
 $templatecontext = (object)[
     'grades' => array_values($grades),
-    'submiturl' => get_string("submitPageUrl", "gradereport_gradingmanager")
+    'submiturl' => get_string("submitPageUrl", "gradereport_gradingmanager"),
+    'editurl' => get_string('editPageUrl', "gradereport_gradingmanager"),
 ];
 
 

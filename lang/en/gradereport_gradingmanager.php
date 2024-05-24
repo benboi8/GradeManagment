@@ -29,6 +29,10 @@ $string['gradesTemplate'] = 'gradereport_gradingmanager/grades';
 $string['submitPageUrl'] = '/grade/report/gradingmanager/submitGrade.php';
 $string['submitTitle'] = 'Submit grade';
 
+$string['editPageUrl'] = '/grade/report/gradingmanager/editGrade.php';
+$string['editTitle'] = 'Edit grade';
+$string['editTemplate'] = 'gradereport_gradingmanager/edit';
+
 $string['gradeCancelled'] = 'Grade submission cancelled.';
 $string['gradeSuccess'] = 'Grade submitted.';
 
@@ -44,3 +48,7 @@ $string['isRequired'] = '{$a} is required.';
 $string['onlyLetters'] = '{$a} can only contain letters.';
 $string['mustBeNum'] = '{$a} must be a number';
 $string['mustBeBetween'] = '{$a->value} must be between {$a->from} and {$a->to}';
+
+$string['gradeNotFound'] = 'That grade could not be found.';
+$string['gradeEditCancel'] = 'Grade editing cancelled.';
+$string['gradeEditSuccess'] = 'Grade edited successfully.';

@@ -33,8 +33,9 @@ $PAGE->set_url(new moodle_url(get_string("submitPageUrl", "gradereport_gradingma
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title(get_string("submitTitle", "gradereport_gradingmanager"));
 
+echo $OUTPUT->header();
 
-// render
+
 $mform = new submitGradeForm();
 
 if ($mform->is_cancelled()) {
@@ -43,24 +44,18 @@ if ($mform->is_cancelled()) {
     // Insert the data into database table.
     $recordtoinsert = new stdClass();
 
-    // do data validation
-    $fullname = $fromform->fullname;
-    $subject = $fromform->subject;
-    $grade = $fromform->grade;
-
-    $recordtoinsert->studentname = $fullname;
-    $recordtoinsert->subject = $subject;
-    $recordtoinsert->grade = $grade;
+    $recordtoinsert->studentname = $fromform->fullname;
+    $recordtoinsert->subject = $fromform->subject;
+    $recordtoinsert->grade = $fromform->grade;
     $recordtoinsert->timesubmitted = date("d/m/Y H:i", substr(time(), 0, 10));;
 
     $DB->insert_record(get_string("databaseName", "gradereport_gradingmanager"), $recordtoinsert);
 
     redirect($CFG->wwwroot.get_string("gradesPageUrl", "gradereport_gradingmanager"), get_string("gradeSuccess", "gradereport_gradingmanager"));
-
-
 }
 
 
-echo $OUTPUT->header();
+
+
 $mform->display();
 echo $OUTPUT->footer();

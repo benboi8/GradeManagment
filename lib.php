@@ -25,3 +25,15 @@
 function gradereport_gradingmanager_before_footer_html_generation() {
 
 }
+
+function gradereport_gradingmanager_pluginfile($context, $filearea, $args) {
+
+    if ($context->contextlevel != CONTEXT_SYSTEM) {
+        send_file_not_found();
+    }
+
+    $fs = get_file_storage();
+    $file = $fs->get_file($context->id, 'gradereport_gradingmanager', $filearea, $args[0], '/', $args[1]);
+
+    send_stored_file($file);
+}
