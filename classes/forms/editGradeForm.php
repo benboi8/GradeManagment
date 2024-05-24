@@ -35,8 +35,12 @@ class editGradeForm extends moodleform {
 
         $mform->addElement(
             'hidden',
-            'id',
-            'id'
+            'studentid',
+            ''
+        );
+        $mform->setType(
+            'studentid',
+            PARAM_ALPHANUMEXT
         );
 
         $mform->addElement(

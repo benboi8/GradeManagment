@@ -22,18 +22,21 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-function gradereport_gradingmanager_before_footer_html_generation() {
+require_once($CFG->dirroot . '/grade/report/lib.php');
+require_once($CFG->libdir.'/tablelib.php');
 
-}
+class grade_report_gradingmanager extends grade_report {
 
-function gradereport_gradingmanager_pluginfile($context, $filearea, $args) {
+    // TODO: Read grade/report/grader
+    // TODO: Add plugin to course grading view
 
-    if ($context->contextlevel != CONTEXT_SYSTEM) {
-        send_file_not_found();
+    public function process_data($data)
+    {
+        // TODO: Implement process_data() method.
     }
 
-    $fs = get_file_storage();
-    $file = $fs->get_file($context->id, 'gradereport_gradingmanager', $filearea, $args[0], '/', $args[1]);
-
-    send_stored_file($file);
+    public function process_action($target, $action)
+    {
+        // TODO: Implement process_action() method.
+    }
 }

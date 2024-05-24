@@ -27,6 +27,7 @@ require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->dirroot . '/grade/report/gradingmanager/classes/forms/editGradeForm.php');
 
 global $DB;
+global $CFG;
 
 // page setup
 $PAGE->set_url(new moodle_url(get_string("editPageUrl", "gradereport_gradingmanager")));
@@ -35,50 +36,43 @@ $PAGE->set_title(get_string("editTitle", "gradereport_gradingmanager"));
 
 $mform = new editGradeForm();
 
-echo $OUTPUT->header();
+function getRecord($form, $db, $cfg) {
 
-
-function getRecord($form) {
     $fromform = $form->get_data();
 
+    $recordid = null;
 
-     if hidden element has id
-    if ($fromform->id != null) {
-        // set id to that id
-        $recordid = $fromform->id;
-    } else {
+    if ($fromform != null) {
+        // if hidden element has id
+        if ($fromform->studentid != null) {
+            // set id to that id
+            $recordid = $fromform->studentid;
+        }
+    }
+    // if $fromform is null then data does not exist in form
+    if ($recordid == null) {
         // otherwise get the id from url
         if (array_key_exists('id', $_GET)) {
             $recordid = $_GET['id'];
+            // set hidden element to id for when page refreshes
+            $form->set_data(array('studentid' => $recordid));
         } else {
-            $recordid = null;
+            redirect($cfg->wwwroot.get_string("gradesPageUrl", "gradereport_gradingmanager"), get_string('gradeNotFound', 'gradereport_gradingmanager'), null, \core\notification::ERROR);
         }
-
-        if ($recordid == null) {
-            redirect($CFG->wwwroot.get_string("gradesPageUrl", "gradereport_gradingmanager"), get_string('gradeNotFound', 'gradereport_gradingmanager'), null, \core\notification::ERROR);
-        }
-
-        // set hidden element to id for when page refreshes
-        $form->set_data(array('id' => $recordid));
     }
 
-    var_dump($recordid);
 
-    if ($DB->record_exists("gradereport_gradingmanager", array("id" => $recordid))) {
-        $record = $DB->get_record('gradereport_gradingmanager', ['id' => $recordid]);
+    if ($db->record_exists("gradereport_gradingmanager", array("id" => $recordid))) {
+        $record = $db->get_record('gradereport_gradingmanager', ['id' => $recordid]);
     } else {
-        $record = null;
-    }
-
-    if ($record == null) {
-        redirect($CFG->wwwroot.get_string("gradesPageUrl", "gradereport_gradingmanager"), get_string('gradeNotFound', 'gradereport_gradingmanager'), null, \core\notification::ERROR);
+        redirect($cfg->wwwroot.get_string("gradesPageUrl", "gradereport_gradingmanager"), get_string('gradeNotFound', 'gradereport_gradingmanager'), null, \core\notification::ERROR);
     }
 
     return $record;
 }
 
 
-$record = getRecord($mform);
+$record = getRecord($mform, $DB, $CFG);
 
 if ($mform->is_cancelled()) {
     redirect($CFG->wwwroot.get_string("gradesPageUrl", "gradereport_gradingmanager"), get_string("gradeEditCancel", "gradereport_gradingmanager"));
@@ -94,9 +88,9 @@ if ($mform->is_cancelled()) {
     $recordtoinsert->grade = $fromform->grade;
     $recordtoinsert->timesubmitted = date("d/m/Y H:i", substr(time(), 0, 10));;
 
-//    $DB->update_record(get_string("databaseName", "gradereport_gradingmanager"), $recordtoinsert);
+    $DB->update_record(get_string("databaseName", "gradereport_gradingmanager"), $recordtoinsert);
 
-//    redirect($CFG->wwwroot.get_string("gradesPageUrl", "gradereport_gradingmanager"), get_string("gradeEditSuccess", "gradereport_gradingmanager"));
+    redirect($CFG->wwwroot.get_string("gradesPageUrl", "gradereport_gradingmanager"), get_string("gradeEditSuccess", "gradereport_gradingmanager"));
 } else {
     $mform->set_data(
         array(
@@ -107,5 +101,6 @@ if ($mform->is_cancelled()) {
     );
 }
 
+echo $OUTPUT->header();
 $mform->display();
 echo $OUTPUT->footer();
