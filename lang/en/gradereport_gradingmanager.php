@@ -22,6 +22,11 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['pluginname'] = 'Grade manager';
+
+$string['gradingmanager:view'] = 'View grades';
+$string['gradingmanager:edit'] = 'Edit grades';
+
 $string['gradesPageUrl'] = '/grade/report/gradingmanager/grades.php';
 $string['gradesTitle'] = 'Grades';
 $string['gradesTemplate'] = 'gradereport_gradingmanager/grades';

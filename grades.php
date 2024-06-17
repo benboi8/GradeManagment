@@ -25,7 +25,6 @@
 // get config values
 require_once(__DIR__ . '/../../../config.php');
 
-
 // get database
 global $DB;
 

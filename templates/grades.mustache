@@ -24,7 +24,8 @@
     }
 }}
 
-<input type="button" class="btn btn-primary" value="Submit Grade" onclick="location.href='{{submiturl}}'">
+<input type="button" class="btn btn-primary" value="Submit a Grade" onclick="location.href='{{submiturl}}'">
+<input type="button" class="btn btn-danger" style="margin-left: 20px" value="Delete selected Grades" onclick="alert('Are you sure you want to delete selected grades?')">
 
 <br><br>
 
@@ -48,10 +49,15 @@ tr:nth-child(even) {
 .edit-col {
     width: 100px;
 }
+
+.delete-col {
+    width: 10px
+}
 </style>
 
 <table class="grades-table">
     <tr>
+        <th class="delete-col"></th>
         <th>Full Name</th>
         <th>Subject</th>
         <th>Grade</th>
@@ -60,6 +66,7 @@ tr:nth-child(even) {
     </tr>
     {{#grades}}
         <tr>
+            <td class="delete-col"><input type="checkbox" value="" id="deleteGrade"></td>
             <td>{{studentname}}</td>
             <td>{{subject}}</td>
             <td>{{grade}}</td>

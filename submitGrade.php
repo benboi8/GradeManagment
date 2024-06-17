@@ -28,13 +28,15 @@ require_once($CFG->dirroot . '/grade/report/gradingmanager/classes/forms/submitG
 
 global $DB;
 
+$context = context_system::instance();
+
 // page setup
 $PAGE->set_url(new moodle_url(get_string("submitPageUrl", "gradereport_gradingmanager")));
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title(get_string("submitTitle", "gradereport_gradingmanager"));
 
-echo $OUTPUT->header();
 
+echo $OUTPUT->header();
 
 $mform = new submitGradeForm();
 
@@ -51,10 +53,33 @@ if ($mform->is_cancelled()) {
 
     $DB->insert_record(get_string("databaseName", "gradereport_gradingmanager"), $recordtoinsert);
 
+     $entry = (object) [
+        'id' => file_get_submitted_draft_itemid('attachments'),
+    ];
+    $maxbytes = get_max_upload_file_size();
+
+
+    file_save_draft_area_files(
+        // The $data->attachments property contains the itemid of the draft file area.
+        $fromform->attachments,
+
+        // The combination of contextid / component / filearea / itemid
+        // form the virtual bucket that file are stored in.
+        $context->id,
+        'gradereport_gradingmanager',
+        'attachments',
+        $entry->id,
+
+        [
+            'subdirs' => 0,
+            'maxbytes' => $maxbytes,
+            'maxfiles' => 50,
+        ]
+    );
+
+
     redirect($CFG->wwwroot.get_string("gradesPageUrl", "gradereport_gradingmanager"), get_string("gradeSuccess", "gradereport_gradingmanager"));
 }
-
-
 
 
 $mform->display();

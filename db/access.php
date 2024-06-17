@@ -4,7 +4,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-    'gradereport/grader:view' => array(
+    'gradereport/gradingmanager:view' => array(
         'riskbitmask' => RISK_PERSONAL,
         'captype' => 'read',
         'contextlevel' => CONTEXT_COURSE,

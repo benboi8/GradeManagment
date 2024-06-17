@@ -109,6 +109,23 @@ class editGradeForm extends moodleform {
             'client'
         );
 
+        $maxFiles = 50;
+        $maxbytes = get_max_upload_file_size();
+        $mform->addElement(
+            'filemanager',
+            'attachments',
+            get_string('attachments', 'gradereport_gradingmanager'),
+            null,
+            [
+                'subdirs' => 0,
+                'maxbytes' => $maxbytes,
+                'areamaxbytes' => $maxbytes * $maxFiles,
+                'maxfiles' => $maxFiles,
+                'accepted_types' => ['document', 'presentation', '.txt'],
+                'return_types' => FILE_INTERNAL | FILE_EXTERNAL,
+            ]
+        );
+
         $this->add_action_buttons();
     }
     //Custom validation should be added here

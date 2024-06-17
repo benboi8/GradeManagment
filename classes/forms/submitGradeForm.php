@@ -98,7 +98,6 @@ class submitGradeForm extends moodleform {
             'client'
         );
 
-        // TODO Do file uploads
         $maxFiles = 50;
         $maxbytes = get_max_upload_file_size();
         $mform->addElement(

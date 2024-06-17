@@ -28,6 +28,9 @@ require_once($CFG->dirroot . '/grade/report/gradingmanager/classes/forms/editGra
 
 global $DB;
 global $CFG;
+global $USER;
+
+$context = context_system::instance();
 
 // page setup
 $PAGE->set_url(new moodle_url(get_string("editPageUrl", "gradereport_gradingmanager")));
@@ -73,6 +76,7 @@ function getRecord($form, $db, $cfg) {
 
 
 $record = getRecord($mform, $DB, $CFG);
+echo $OUTPUT->header();
 
 if ($mform->is_cancelled()) {
     redirect($CFG->wwwroot.get_string("gradesPageUrl", "gradereport_gradingmanager"), get_string("gradeEditCancel", "gradereport_gradingmanager"));
@@ -99,8 +103,34 @@ if ($mform->is_cancelled()) {
             'grade' => $record->grade,
         )
     );
+
+    $entry = $DB->get_records('files', ['userid' => $USER->id, 'filearea' => 'attachments']);
+
+    $draftitemid = file_get_submitted_draft_itemid('attachments');
+
+    $maxbytes = get_max_upload_file_size();
+
+    var_dump($entry);
+
+    file_prepare_draft_area(
+        $draftitemid,
+        $context->id,
+        'gradereport_gradingmanager',
+        'attachments',
+        // problem, entry is array
+        $entry->id,
+        [
+            'subdirs' => 0,
+            'maxbytes' => $maxbytes,
+            'maxfiles' => 50,
+        ]
+    );
+
+//    $entry->attachments = $draftitemid;
+    $mform->set_data($entry);
 }
 
-echo $OUTPUT->header();
 $mform->display();
 echo $OUTPUT->footer();
+
+
