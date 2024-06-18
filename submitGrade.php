@@ -34,15 +34,12 @@ $PAGE->set_url(new moodle_url(get_string("submitPageUrl", "gradereport_gradingma
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title(get_string("submitTitle", "gradereport_gradingmanager"));
 
-// todo check if this is correct
 $courseid = $COURSE->id;
 if (!$course = $DB->get_record('course', array('id' => $courseid))) {
     throw new \moodle_exception('invalidcourseid');
 }
 
 $context = context_course::instance($course->id);
-
-echo $OUTPUT->header();
 
 $mform = new submitGradeForm();
 
@@ -88,6 +85,6 @@ if ($mform->is_cancelled()) {
     redirect($CFG->wwwroot.get_string("gradesPageUrl", "gradereport_gradingmanager"), get_string("gradeSuccess", "gradereport_gradingmanager"));
 }
 
-
+echo $OUTPUT->header();
 $mform->display();
 echo $OUTPUT->footer();

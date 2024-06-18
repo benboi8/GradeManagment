@@ -43,8 +43,6 @@ $context = context_course::instance($course->id);
 
 $grades = $DB->get_records(get_string("databaseName", "gradereport_gradingmanager"));
 
-
-
 // create template context
 $templatecontext = (object)[
     'grades' => array_values($grades),
