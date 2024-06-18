@@ -21,3 +21,12 @@
  * @copyright 2024, Ben Williams <benboi294@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die();
+
+function grade_report_gradingmanager_extend_navigation_course($navigation, $course, $context) {
+    if (has_capability('local/gradesmanager:view', $context)) {
+        $url = new moodle_url('/local/gradesmanager/index.php', array('id' => $course->id));
+        $navigation->get('grades')->add(get_string('pluginname', 'local_gradesmanager'), $url, navigation_node::TYPE_SETTING, null, 'local_gradesmanager');
+    }
+}

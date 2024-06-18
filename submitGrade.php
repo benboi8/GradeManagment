@@ -28,13 +28,19 @@ require_once($CFG->dirroot . '/grade/report/gradingmanager/classes/forms/submitG
 
 global $DB;
 
-$context = context_system::instance();
 
 // page setup
 $PAGE->set_url(new moodle_url(get_string("submitPageUrl", "gradereport_gradingmanager")));
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title(get_string("submitTitle", "gradereport_gradingmanager"));
 
+// todo check if this is correct
+$courseid = $COURSE->id;
+if (!$course = $DB->get_record('course', array('id' => $courseid))) {
+    throw new \moodle_exception('invalidcourseid');
+}
+
+$context = context_course::instance($course->id);
 
 echo $OUTPUT->header();
 
@@ -49,7 +55,8 @@ if ($mform->is_cancelled()) {
     $recordtoinsert->studentname = $fromform->fullname;
     $recordtoinsert->subject = $fromform->subject;
     $recordtoinsert->grade = $fromform->grade;
-    $recordtoinsert->timesubmitted = date("d/m/Y H:i", substr(time(), 0, 10));;
+    $recordtoinsert->timesubmitted = date("d/m/Y H:i", substr(time(), 0, 10));
+    $recordtoinsert->courseid = $courseid;
 
     $DB->insert_record(get_string("databaseName", "gradereport_gradingmanager"), $recordtoinsert);
 

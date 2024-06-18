@@ -27,9 +27,9 @@ $string['pluginname'] = 'Grade manager';
 $string['gradingmanager:view'] = 'View grades';
 $string['gradingmanager:edit'] = 'Edit grades';
 
-$string['gradesPageUrl'] = '/grade/report/gradingmanager/grades.php';
+$string['gradesPageUrl'] = '/grade/report/gradingmanager/index.php';
 $string['gradesTitle'] = 'Grades';
-$string['gradesTemplate'] = 'gradereport_gradingmanager/grades';
+$string['gradesTemplate'] = 'gradereport_gradingmanager/index';
 
 $string['submitPageUrl'] = '/grade/report/gradingmanager/submitGrade.php';
 $string['submitTitle'] = 'Submit grade';

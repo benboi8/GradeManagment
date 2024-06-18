@@ -1,0 +1,77 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template gradereport_gradingmanager/grades
+
+
+    Example context (json):
+    {
+
+    }
+}}
+
+<input type="button" class="btn btn-primary" value="Submit a Grade" onclick="location.href='{{submiturl}}'">
+<input type="button" class="btn btn-danger" style="margin-left: 20px" value="Delete selected Grades" onclick="alert('Are you sure you want to delete selected grades?')">
+
+<br><br>
+
+<!--Table Style-->
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #cccccc;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.edit-col {
+    width: 100px;
+}
+
+.delete-col {
+    width: 10px
+}
+</style>
+
+<table class="grades-table">
+    <tr>
+        <th class="delete-col"></th>
+        <th>Full Name</th>
+        <th>Subject</th>
+        <th>Grade</th>
+        <th>Time submitted</th>
+        <th class="edit-col"></th>
+    </tr>
+    {{#grades}}
+        <tr>
+            <td class="delete-col"><input type="checkbox" value="" id="deleteGrade"></td>
+            <td>{{studentname}}</td>
+            <td>{{subject}}</td>
+            <td>{{grade}}</td>
+            <td>{{timesubmitted}}</td>
+            <td class="edit-col"><input type="button" class="btn btn-primary" value="Edit Grade" onclick="location.href='{{editurl}}?id={{id}}'"></td>
+        </tr>
+    {{/grades}}
+</table>

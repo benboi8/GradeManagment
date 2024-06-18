@@ -34,10 +34,15 @@ $PAGE->set_context(\context_system::instance());
 $PAGE->set_title(get_string("gradesTitle", "gradereport_gradingmanager"));
 
 
+$courseid = $COURSE->id;
+if (!$course = $DB->get_record('course', array('id' => $courseid))) {
+    throw new \moodle_exception('invalidcourseid');
+}
+require_login($course);
+$context = context_course::instance($course->id);
+
 $grades = $DB->get_records(get_string("databaseName", "gradereport_gradingmanager"));
 
-
-// TODO add sorting of columns by changing order of $grades
 
 
 // create template context
